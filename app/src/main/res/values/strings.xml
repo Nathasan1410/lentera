@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lentera</string>
+    <string name="welcome_text" />
+    <string name="start" />
 </resources>
