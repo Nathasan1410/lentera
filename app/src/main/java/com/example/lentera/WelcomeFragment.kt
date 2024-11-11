@@ -1,4 +1,4 @@
-package com.example.excercise_fragment_navigation
+package com.example.lentera
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,7 +18,7 @@ class WelcomeFragment : Fragment() {
         startButton.setOnClickListener {
 //Code that runs when the button is clicked
             view.findNavController()
-                .navigate(R.id.action_WelcomeFragment_to_BluetoothFragment)
+                .navigate(R.id.action_welcomeFragment_to_messageFragment)
         }
         return view
     }
