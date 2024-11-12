@@ -7,29 +7,29 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.example.lentera.WelcomeFragment"
+        android:name="com.example.lentera.homepage.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
-            android:id="@+id/action_welcomeFragment_to_messageFragment"
-            app:destination="@id/messageFragment" />
+            android:id="@+id/action_welcomeFragment_to_bluetoothFragment"
+            app:destination="@id/bluetoothFragment" />
     </fragment>
     <fragment
-        android:id="@+id/messageFragment"
-        android:name="com.example.lentera.BluetoothFragment"
+        android:id="@+id/bluetoothFragment"
+        android:name="com.example.lentera.homepage.BluetoothFragment"
         android:label="fragment_message"
         tools:layout="@layout/fragment_bluetooth" >
         <action
-            android:id="@+id/action_bluetoothFragment_to_welcomeFragment"
+            android:id="@+id/action_bluetoothFragment_to_connectedFragment"
+            app:destination="@id/connectedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connectedFragment"
+        android:name="com.example.lentera.homepage.BluetoothFragment"
+        android:label="fragment_connected"
+        tools:layout="@layout/fragment_connected" >
+        <action
+            android:id="@+id/action_connectedFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
     </fragment>
-<!--    <fragment-->
-<!--        android:id="@+id/encryptFragment"-->
-<!--        android:name="com.example.excercise_fragment_navigation.EncryptFragment"-->
-<!--        android:label="fragment_encrypt"-->
-<!--        tools:layout="@layout/fragment_encrypt" >-->
-<!--        <argument-->
-<!--            android:name="message"-->
-<!--            app:argType="string" />-->
-<!--    </fragment>-->
 </navigation>

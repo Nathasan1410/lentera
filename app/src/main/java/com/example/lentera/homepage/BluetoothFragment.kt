@@ -1,4 +1,4 @@
-package com.example.lentera
+package com.example.lentera.homepage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.lentera.R
 
 class BluetoothFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -16,7 +17,7 @@ class BluetoothFragment : Fragment() {
         startButton.setOnClickListener {
 //Code that runs when the button is clicked
             view.findNavController()
-                .navigate(R.id.action_bluetoothFragment_to_welcomeFragment)
+                .navigate(R.id.action_bluetoothFragment_to_connectedFragment)
         }
         return view
     }

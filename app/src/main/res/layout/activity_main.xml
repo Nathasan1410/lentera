@@ -52,7 +52,7 @@
             android:padding="16dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"
-            tools:context=".MainActivity" />
+            tools:context=".homepage.MainActivity" />
 
     </androidx.core.widget.NestedScrollView>
 
