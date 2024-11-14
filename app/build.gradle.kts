@@ -5,7 +5,6 @@ plugins {
     id("com.google.gms.google-services") version "4.4.2" apply false
     id("com.android.application")
     id("com.google.gms.google-services")
-
 }
 
 android {
@@ -41,7 +40,7 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("com.google.android.material:material:1.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
