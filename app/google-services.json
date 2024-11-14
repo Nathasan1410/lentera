@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787095385684",
+    "project_id": "cobacoba-30cb8",
+    "storage_bucket": "cobacoba-30cb8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787095385684:android:ff4f8dd5f07eb0861e9fc1",
+        "android_client_info": {
+          "package_name": "com.example.lentera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5xdpcwUv7lAM-ix6Qcnn37Cg9ov-kZC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
