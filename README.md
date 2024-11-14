@@ -7,6 +7,4 @@ Notes: Our team only consist of two people, we are:
 
 Because one of our team used campus personal computer, there was a commit from:
 @IvanRoberto83
-IvanRoberto83 VanRoberto~
-
-This is not our account
+IvanRoberto83 VanRoberto~ (This is not our account)
