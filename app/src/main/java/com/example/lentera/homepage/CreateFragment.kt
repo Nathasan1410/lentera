@@ -1,60 +1,100 @@
 package com.example.lentera.homepage
 
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.gridlayout.widget.GridLayout
 import com.example.lentera.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CreateFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CreateFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val rows = 8
+    private val columns = 8
+    private lateinit var ledGrid: Array<Array<LedInput>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_create, container, false)
+
+        // Initialize the grid and LED inputs
+        initLedGrid(rootView)
+
+        return rootView
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CreateFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CreateFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun initLedGrid(rootView: View) {
+        val buttonSizeInDp = 48
+        val marginInDp = 4
+        val sizeInPixels = (buttonSizeInDp * resources.displayMetrics.density).toInt()
+        val marginInPixels = (marginInDp * resources.displayMetrics.density).toInt()
+
+        // Step 1: Initialize the 8x8 grid of LedInput objects
+        ledGrid = Array(rows) { row ->
+            Array(columns) { col ->
+                LedInput(
+                    id = row * columns + col, // Unique ID for each LED
+                    mode = 5,                // Default mode: kosong
+                    color = "#000000"        // Default color: black
+                )
             }
+        }
+
+        // Step 2: Dynamically add buttons to the GridLayout
+        val gridLayout = rootView.findViewById<GridLayout>(R.id.ledGrid)
+        gridLayout.rowCount = rows
+        gridLayout.columnCount = columns
+
+        for (row in 0 until rows) {
+            for (col in 0 until columns) {
+                val button = Button(requireContext()).apply {
+                    id = View.generateViewId()
+                    text = "$row,$col"
+                    setBackgroundColor(Color.BLACK)
+                    setTextColor(Color.WHITE)
+
+                    // Set GridLayout-specific layout params
+                    val layoutParams = GridLayout.LayoutParams().apply {
+                        width = sizeInPixels
+                        height = sizeInPixels
+                        setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels)
+                        rowSpec = GridLayout.spec(row)
+                        columnSpec = GridLayout.spec(col)
+                    }
+                    this.layoutParams = layoutParams
+
+                    setOnClickListener {
+                        onButtonPress(row, col, this)
+                    }
+                }
+                gridLayout.addView(button)
+            }
+        }
+    }
+
+    // Step 3: Handle button press
+    private fun onButtonPress(row: Int, col: Int, button: Button) {
+        val led = ledGrid[row][col]
+
+        // Update the LED object (simulating new values)
+        led.mode = 2 // Set mode to LED (just an example)
+        led.color = "#FF0000" // Set color to red (example)
+
+        // Update the button's background color
+        button.setBackgroundColor(Color.parseColor(led.color))
+
+        // Provide feedback
+        Toast.makeText(
+            requireContext(),
+            "Updated LED at ($row, $col): Mode=${led.mode}, Color=${led.color}",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

@@ -25,11 +25,24 @@
     </fragment>
     <fragment
         android:id="@+id/connectedFragment"
-        android:name="com.example.lentera.homepage.BluetoothFragment"
+        android:name="com.example.lentera.homepage.ConnectedFragment"
         android:label="fragment_connected"
         tools:layout="@layout/fragment_connected" >
         <action
             android:id="@+id/action_connectedFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.lentera.homepage.GalleryFragment"
+        android:label="Gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_create"
+        android:name="com.example.lentera.homepage.CreateFragment"
+        android:label="Create"
+        tools:layout="@layout/fragment_create" />
+
 </navigation>

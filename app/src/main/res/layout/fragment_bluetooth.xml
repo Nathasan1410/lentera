@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".homepage.ConnectedFragment">
+    tools:context=".homepage.BluetoothFragment">
 
     <TextView
         android:layout_width="match_parent"
