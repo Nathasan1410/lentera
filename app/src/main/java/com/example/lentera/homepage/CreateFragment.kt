@@ -30,7 +30,7 @@
             initLedGrid(rootView)
             setupColorInput(rootView)
             setupChangeInputModeButton(rootView)
-            setupReadGridButton(rootView) // Set up the read grid button
+            setupReadGridButton(rootView)
             return rootView
         }
 

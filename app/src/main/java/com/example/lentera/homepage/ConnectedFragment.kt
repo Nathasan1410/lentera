@@ -15,7 +15,7 @@ class ConnectedFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_connected, container, false)
         val startButton = view.findViewById<Button>(R.id.start)
         startButton.setOnClickListener {
-//Code that runs when the button is clicked
+
             view.findNavController()
                 .navigate(R.id.action_connectedFragment_to_welcomeFragment)
         }

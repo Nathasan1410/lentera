@@ -28,5 +28,10 @@
             android:name=".homepage.LoginActivity"
             android:exported="true" />
 
+        <!-- RegisterActivity -->
+        <activity
+            android:name=".homepage.RegisterActivity"
+            android:exported="true" />
+
     </application>
 </manifest>

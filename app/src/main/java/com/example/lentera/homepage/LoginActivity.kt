@@ -18,13 +18,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
         val emailEditText: EditText = findViewById(R.id.et_email)
         val passwordEditText: EditText = findViewById(R.id.et_password)
         val loginButton: Button = findViewById(R.id.btn_login)
-        val registerButton: Button = findViewById(R.id.btn_register)
+//        val registerButton: Button = findViewById(R.id.btn_register)
 
         // Login button click listener
         loginButton.setOnClickListener {
@@ -47,24 +46,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Register button click listener
+        val registerButton: Button = findViewById(R.id.btn_register)
         registerButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-            } else {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
-            }
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
+
     }
 }

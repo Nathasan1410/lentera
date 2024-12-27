@@ -50,6 +50,7 @@ dependencies {
     implementation (libs.navigationUiKtx)
     implementation(libs.androidx.gridlayout)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

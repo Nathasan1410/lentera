@@ -25,27 +25,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // Check if user is not logged in
         if (auth.currentUser == null) {
             navigateToLogin()
             return
         }
 
-        // Set up the NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Set up the BottomNavigationView with the NavController
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
-        // Set up the Profile Icon Click Listener
         val profileIcon: ImageView = findViewById(R.id.profile_icon)
         profileIcon.setOnClickListener {
-            showProfileMenu(it)  // Call the function to show the menu
+            showProfileMenu(it)
         }
     }
 
@@ -57,21 +52,16 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun showProfileMenu(view: View) {
-        // Create the PopupMenu
         val popupMenu = PopupMenu(this, view)
 
-        // Inflate the menu XML
         val menuInflater = popupMenu.menuInflater
-        menuInflater.inflate(R.layout.profile_menu, popupMenu.menu)  // This refers to the menu file in res/menu/profile_menu.xml
-
-        // Show the PopupMenu
+        menuInflater.inflate(R.layout.profile_menu, popupMenu.menu)
         popupMenu.show()
 
-        // Handle menu item click
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.logout -> {
-                    logout()  // Call logout function
+                    logout()
                     true
                 }
                 else -> false
@@ -80,15 +70,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        // Firebase logout logic here
         FirebaseAuth.getInstance().signOut()
-        navigateToLogin()  // Redirect to login screen after logout
+        navigateToLogin()
     }
 
     override fun onStart() {
         super.onStart()
 
-        // Recheck user login state
         if (auth.currentUser == null) {
             navigateToLogin()
         }

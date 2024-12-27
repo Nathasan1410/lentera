@@ -16,7 +16,7 @@ class WelcomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_welcome, container, false)
         val startButton = view.findViewById<Button>(R.id.start)
         startButton.setOnClickListener {
-//Code that runs when the button is clicked
+
             view.findNavController()
                 .navigate(R.id.action_welcomeFragment_to_bluetoothFragment)
         }
