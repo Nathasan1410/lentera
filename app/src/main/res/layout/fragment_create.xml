@@ -4,44 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="108dp"
     tools:context=".homepage.CreateFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="56dp"> <!-- Adjust margin to match toolbar height -->
-
-        <!-- Container for color input and apply button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="top"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/colorInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Enter Hex Color Code (e.g., #FF0000)"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/btnApplyColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Apply Color"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
+        android:padding="8dp">
 
         <!-- Scrollable grid layout -->
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
 
             <androidx.gridlayout.widget.GridLayout
                 android:id="@+id/ledGrid"
@@ -52,14 +28,65 @@
                 app:rowCount="8" />
         </HorizontalScrollView>
 
-        <!-- Button to change input mode -->
-        <Button
-            android:id="@+id/btnChangeInputMode"
-            android:layout_width="wrap_content"
+        <!-- Container for color input and apply button -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Input Mode"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center_horizontal" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/colorInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter Hex Color Code (e.g., #FF0000)"
+                android:inputType="text"
+                android:background="#FFFFFF"
+                android:padding="8dp"
+                android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/btnApplyColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply Color"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Output section: Read Grid Button and Change Mode Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/btnReadGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Read Grid"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnChangeInputMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Input Mode"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <!-- Output TextView -->
+        <TextView
+            android:id="@+id/tvOutput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Processed Colors:"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="16dp" />
     </LinearLayout>
 </ScrollView>

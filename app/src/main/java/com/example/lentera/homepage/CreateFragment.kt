@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.gridlayout.widget.GridLayout
 import com.example.lentera.R
-import android.util.Patterns
 import android.widget.EditText
+import android.widget.TextView
 
 class CreateFragment : Fragment() {
 
@@ -19,22 +19,18 @@ class CreateFragment : Fragment() {
     private val columns = 10
     private lateinit var ledGrid: Array<Array<LedInput>>
     private var currentMode = 0
+    private var savedColor: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_create, container, false)
 
-        // Initialize the grid and LED inputs
         initLedGrid(rootView)
-
         setupColorInput(rootView)
-
-        // Set up the button to change input mode
         setupChangeInputModeButton(rootView)
-
+        setupReadGridButton(rootView) // Set up the read grid button
         return rootView
     }
 
@@ -100,30 +96,6 @@ class CreateFragment : Fragment() {
         }
     }
 
-    // Step 3: Handle button press
-    private fun onButtonPress(row: Int, col: Int, button: Button) {
-        val led = ledGrid[row][col]
-
-        // Update the LED object with the current mode and a sample color
-        led.mode = currentMode
-        led.color = when (currentMode) {
-            0 -> "#000000" // Black for off
-            1 -> "#00FF00" // Green for some mode
-            2 -> "#FF0000" // Red for LED
-            5 -> "#0000FF" // Blue for another mode
-            else -> "#FFFFFF" // Default white
-        }
-
-        // Update the button's background color
-        button.setBackgroundColor(Color.parseColor(led.color))
-
-        // Provide feedback
-        Toast.makeText(
-            requireContext(),
-            "Updated LED at ($row, $col): Mode=${led.mode}, Color=${led.color}",
-            Toast.LENGTH_SHORT
-        ).show()
-    }
     // Function to update color with hex code
     fun updateLedColor(row: Int, col: Int, hexColor: String) {
         if (!isValidHexColor(hexColor)) {
@@ -148,7 +120,6 @@ class CreateFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
     }
-
     // Helper function to validate hex color codes
     private fun isValidHexColor(color: String): Boolean {
         return color.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"))
@@ -160,12 +131,85 @@ class CreateFragment : Fragment() {
 
         applyColorButton.setOnClickListener {
             val colorCode = colorInput.text.toString().trim()
-            val row = 0 // Replace with actual row selection logic
-            val col = 0 // Replace with actual column selection logic
-
-            // Call updateLedColor with user input
-            updateLedColor(row, col, colorCode)
+            if (isValidHexColor(colorCode)) {
+                savedColor = colorCode
+                Toast.makeText(requireContext(), "Color saved: $savedColor", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Invalid color code", Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
+    // Step 3: Handle button press
+    private fun onButtonPress(row: Int, col: Int, button: Button) {
+        val led = ledGrid[row][col]
+
+        // Check the current mode of the button
+        if (led.mode == 2) {
+            // If mode is 2, update the color only if a saved color exists
+            if (savedColor != null) {
+                led.color = savedColor!!
+                button.setBackgroundColor(Color.parseColor(led.color))
+                Toast.makeText(
+                    requireContext(),
+                    "LED color updated to ${led.color} at ($row, $col)",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "No color saved. Please input and save a color first.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            // Change the mode and update the button text
+            led.mode = currentMode
+            button.text = when (led.mode) {
+                0 -> "IN"
+                1 -> "OUT"
+                else -> "$row,$col" // Default text if mode is not 0 or 1
+            }
+
+            Toast.makeText(
+                requireContext(),
+                "LED mode updated to ${led.mode} at ($row, $col)",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+    private fun processLedInput(): String {
+        val colors = mutableListOf<String>()
+        var direction = "IN"
+
+        // Determine the direction based on the first and last columns
+        for (row in 0 until rows) {
+            if (ledGrid[row][0].mode == 0) direction = "IN"
+            if (ledGrid[row][columns - 1].mode == 1) direction = "OUT"
+
+            val rowColors = ledGrid[row].map { it.color }
+
+            // Append the colors in the correct order based on direction
+            colors.addAll(if (direction == "IN") rowColors else rowColors.reversed())
+        }
+
+        // Format the colors as a readable string
+        val formattedColors = colors.joinToString(" ")
+
+        // Update the TextView with the output
+        val outputTextView = requireView().findViewById<TextView>(R.id.tvOutput)
+        outputTextView.text = "Processed Colors: $formattedColors"
+
+        return formattedColors
+    }
+
+    private fun setupReadGridButton(rootView: View) {
+        val readGridButton = rootView.findViewById<Button>(R.id.btnReadGrid)
+        readGridButton.setOnClickListener {
+            processLedInput()
+        }
+    }
+
+
 }
 
