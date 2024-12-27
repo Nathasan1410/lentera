@@ -2,10 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.safeArgs)
-    id("com.google.gms.google-services") version "4.4.2" apply false
 //    id("com.android.application")
-//    id("com.google.gms.google-services")
-
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,9 +49,10 @@ dependencies {
     implementation(libs.navigationFragmentKtx)
     implementation (libs.navigationUiKtx)
     implementation(libs.androidx.gridlayout)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
 }
