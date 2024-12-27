@@ -180,28 +180,52 @@ class CreateFragment : Fragment() {
     }
     private fun processLedInput(): String {
         val colors = mutableListOf<String>()
-        var direction = "IN"
 
-        // Determine the direction based on the first and last columns
+        // Check for horizontal reading (left-to-right or right-to-left)
         for (row in 0 until rows) {
-            if (ledGrid[row][0].mode == 0) direction = "IN"
-            if (ledGrid[row][columns - 1].mode == 1) direction = "OUT"
+            val rowStartIndex = ledGrid[row].indexOfFirst { it.mode == 0 } // Find "IN"
+            val rowEndIndex = ledGrid[row].indexOfLast { it.mode == 1 } // Find "OUT"
 
-            val rowColors = ledGrid[row].map { it.color }
+            if (rowStartIndex != -1 && rowEndIndex != -1 && rowStartIndex < rowEndIndex) {
+                // Left-to-right
+                println("Detected horizontal direction: IN at Row $row from $rowStartIndex to $rowEndIndex")
+                val rowColors = ledGrid[row]
+                    .slice(rowStartIndex..rowEndIndex) // Extract the range
+                    .filter { it.mode == 2 } // Include only LEDs with mode == 2
+                    .map { it.color }
+                colors.addAll(rowColors)
+            } else if (rowStartIndex != -1 && rowEndIndex != -1 && rowStartIndex > rowEndIndex) {
+                // Right-to-left
+                println("Detected horizontal direction: OUT at Row $row from $rowEndIndex to $rowStartIndex")
+                val rowColors = ledGrid[row]
+                    .slice(rowEndIndex..rowStartIndex) // Extract the range
+                    .reversed() // Reverse for OUT
+                    .filter { it.mode == 2 } // Include only LEDs with mode == 2
+                    .map { it.color }
+                colors.addAll(rowColors)
+            }
+        }
 
-            // Append the colors in the correct order based on direction
-            colors.addAll(if (direction == "IN") rowColors else rowColors.reversed())
+        // If no valid horizontal direction is found
+        if (colors.isEmpty()) {
+            println("No valid horizontal direction detected.")
+            val outputTextView = requireView().findViewById<TextView>(R.id.tvOutput)
+            outputTextView.text = "No valid horizontal direction found."
+            return "No valid horizontal direction found."
         }
 
         // Format the colors as a readable string
         val formattedColors = colors.joinToString(" ")
 
-        // Update the TextView with the output
+        // Update the TextView with the filtered output
         val outputTextView = requireView().findViewById<TextView>(R.id.tvOutput)
         outputTextView.text = "Processed Colors: $formattedColors"
 
         return formattedColors
     }
+
+
+
 
     private fun setupReadGridButton(rootView: View) {
         val readGridButton = rootView.findViewById<Button>(R.id.btnReadGrid)
