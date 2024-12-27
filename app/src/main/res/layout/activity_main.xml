@@ -16,7 +16,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <!-- Toolbar Title -->
         <TextView
             android:id="@+id/toolbar_title"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -26,16 +25,6 @@
             android:text="Lentera"
             android:textSize="24sp"
             android:textColor="?attr/colorSurfaceDim" />
-
-        <!-- Profile Icon -->
-        <ImageView
-            android:id="@+id/profile_icon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_profile"
-            android:contentDescription="Profile"
-            android:layout_gravity="end"
-            android:padding="8dp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Scroll View with Fragment -->
@@ -51,9 +40,13 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="16dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"
             tools:context=".homepage.MainActivity" />
+
     </androidx.core.widget.NestedScrollView>
 
     <!-- Bottom Navigation -->
