@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.lentera"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.lentera"

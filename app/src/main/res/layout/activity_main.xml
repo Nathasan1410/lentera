@@ -25,6 +25,16 @@
             android:text="Lentera"
             android:textSize="24sp"
             android:textColor="?attr/colorSurfaceDim" />
+
+        <!-- Profile Icon -->
+        <ImageView
+            android:id="@+id/profile_icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="Profile"
+            android:layout_gravity="end"
+            android:padding="8dp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Scroll View with Fragment -->
