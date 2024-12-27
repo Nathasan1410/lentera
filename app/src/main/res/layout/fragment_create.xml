@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="180dp"
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".homepage.CreateFragment">
 
     <LinearLayout
