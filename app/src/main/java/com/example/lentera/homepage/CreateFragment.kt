@@ -26,7 +26,7 @@ class CreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_create, container, false)
-
+        setupResetButton(rootView)
         initLedGrid(rootView)
         setupColorInput(rootView)
         setupChangeInputModeButton(rootView)
@@ -222,6 +222,28 @@ class CreateFragment : Fragment() {
         outputTextView.text = "Processed Colors: $formattedColors"
 
         return formattedColors
+    }
+
+    private fun setupResetButton(rootView: View) {
+        val resetButton = rootView.findViewById<Button>(R.id.btnResetGrid)
+        resetButton.setOnClickListener {
+            // Reset the grid logic here
+            for (row in 0 until rows) {
+                for (col in 0 until columns) {
+                    val led = ledGrid[row][col]
+                    led.mode = 5 // Default mode
+                    led.color = "#000000" // Default color (black)
+                    val button = requireView().findViewById<GridLayout>(R.id.ledGrid)
+                        .getChildAt(row * columns + col) as Button
+                    button.setBackgroundColor(Color.BLACK)
+                    button.text = "$row,$col"
+                }
+            }
+            // Clear output TextView
+            val outputTextView = rootView.findViewById<TextView>(R.id.tvOutput)
+            outputTextView.text = "Processed Colors:"
+            Toast.makeText(requireContext(), "Grid has been reset.", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

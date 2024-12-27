@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="108dp"
+    android:paddingTop="180dp"
     tools:context=".homepage.CreateFragment">
 
     <LinearLayout
@@ -55,7 +55,7 @@
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
-        <!-- Output section: Read Grid Button and Change Mode Button -->
+        <!-- Output section: Read Grid and Change Mode Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,5 +88,14 @@
             android:textSize="16sp"
             android:background="#FFFFFF"
             android:layout_marginBottom="16dp" />
+
+        <!-- Reset Button -->
+        <Button
+            android:id="@+id/btnResetGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </ScrollView>
