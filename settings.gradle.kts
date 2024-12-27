@@ -16,9 +16,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io") // JitPack repository
     }
 }
-
 rootProject.name = "Lentera"
 include(":app")
  

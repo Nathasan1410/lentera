@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.lentera"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.lentera"
@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.appcompat:appcompat:1.1.0")
+    implementation ("com.github.madrapps:pikolo:2.0.2")
     implementation("com.google.android.material:material:1.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
