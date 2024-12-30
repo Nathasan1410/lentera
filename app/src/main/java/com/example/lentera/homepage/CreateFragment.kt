@@ -46,6 +46,7 @@ class CreateFragment : Fragment() {
         setupReadGridButton(rootView)
         setupChangeInputModeButton(rootView)
         setupSaveButton(rootView)
+        setupPublishButton(rootView)
 
         return rootView
     }
@@ -59,7 +60,8 @@ class CreateFragment : Fragment() {
             Array(columns) { col ->
                 LedConfiguration(
                     id = row * columns + col,
-                    color = "#000000"  // Default color black
+                    mode = 5,            // Initialize mode to 5
+                    color = "#000000"    // Default color black
                 )
             }
         }
@@ -86,18 +88,36 @@ class CreateFragment : Fragment() {
 
                     setOnClickListener {
                         if (isInputModeActive) {
-                            // Toggle input mode: IN -> OUT -> Coordinate
+                            // Toggle input mode: IN -> OUT -> Color -> Coordinate
                             when (text) {
-                                "IN" -> text = "OUT"
-                                "OUT" -> text = "$row,$col"
-                                else -> text = "IN"
+                                "IN" -> {
+                                    text = "OUT"
+                                    ledGrid[row][col].mode = 1 // Set mode to OUT (1)
+                                }
+                                "OUT" -> {
+                                    text = "Color"
+                                    ledGrid[row][col].mode = 2 // Set mode to Color Mode (2)
+                                }
+                                "Color" -> {
+                                    text = "$row,$col"
+                                    ledGrid[row][col].mode = 5 // Reset mode to 5
+                                }
+                                else -> {
+                                    text = "IN"
+                                    ledGrid[row][col].mode = 0 // Set mode to IN (0)
+                                }
                             }
                         } else {
-                            // Update color of the button with selected color from the color picker
-                            val selectedColor = colorPicker.color
-                            val hexColor = String.format("#%06X", 0xFFFFFF and selectedColor)
-                            setBackgroundColor(selectedColor)
-                            ledGrid[row][col].color = hexColor
+                            // Handle color application only when mode is 2
+                            if (ledGrid[row][col].mode == 2) {
+                                val selectedColor = colorPicker.color
+                                val hexColor = String.format("#%06X", 0xFFFFFF and selectedColor)
+                                setBackgroundColor(selectedColor)
+                                text = "" // Remove text in Color Mode
+                                ledGrid[row][col].color = hexColor
+                            } else {
+                                Toast.makeText(context, "Color change not allowed. Set mode to 2 first.", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }
@@ -145,16 +165,50 @@ class CreateFragment : Fragment() {
     private fun setupReadGridButton(rootView: View) {
         val readGridButton = rootView.findViewById<Button>(R.id.btnReadGrid)
         outputTextView = rootView.findViewById(R.id.tvOutput)
+
         readGridButton.setOnClickListener {
-            val colors = mutableSetOf<String>()
-            for (row in 0 until rows) {
-                for (col in 0 until columns) {
-                    colors.add(ledGrid[row][col].color)
-                }
-            }
-            outputTextView.text = "Processed Colors: ${colors.joinToString(", ")}"
-            Toast.makeText(requireContext(), "Grid colors read", Toast.LENGTH_SHORT).show()
+            val result = processLedInput()
+            outputTextView.text = result
+            Toast.makeText(requireContext(), "Grid processed successfully", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun processLedInput(): String {
+        val colors = mutableListOf<String>()
+
+        // Check for horizontal reading (left-to-right or right-to-left)
+        for (row in 0 until rows) {
+            val rowStartIndex = ledGrid[row].indexOfFirst { it.mode == 0 } // Find "IN"
+            val rowEndIndex = ledGrid[row].indexOfLast { it.mode == 1 } // Find "OUT"
+
+            if (rowStartIndex != -1 && rowEndIndex != -1 && rowStartIndex < rowEndIndex) {
+                // Left-to-right
+                Log.d("ProcessLedInput", "Detected horizontal direction: IN at Row $row from $rowStartIndex to $rowEndIndex")
+                val rowColors = ledGrid[row]
+                    .slice(rowStartIndex..rowEndIndex) // Extract the range
+                    .filter { it.mode == 2 } // Include only LEDs with mode == 2
+                    .map { it.color }
+                colors.addAll(rowColors)
+            } else if (rowStartIndex != -1 && rowEndIndex != -1 && rowStartIndex > rowEndIndex) {
+                // Right-to-left
+                Log.d("ProcessLedInput", "Detected horizontal direction: OUT at Row $row from $rowEndIndex to $rowStartIndex")
+                val rowColors = ledGrid[row]
+                    .slice(rowEndIndex..rowStartIndex) // Extract the range
+                    .reversed() // Reverse for OUT
+                    .filter { it.mode == 2 } // Include only LEDs with mode == 2
+                    .map { it.color }
+                colors.addAll(rowColors)
+            }
+        }
+
+        // If no valid horizontal direction is found
+        if (colors.isEmpty()) {
+            Log.d("ProcessLedInput", "No valid horizontal direction detected.")
+            return "No valid horizontal direction found."
+        }
+
+        // Format the colors as a readable string
+        return "Processed Colors: ${colors.joinToString(", ")}"
     }
 
     private fun setupChangeInputModeButton(rootView: View) {
@@ -227,9 +281,34 @@ class CreateFragment : Fragment() {
             Toast.makeText(requireContext(), "Error saving file.", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun setupPublishButton(rootView: View) {
+        val publishButton = rootView.findViewById<Button>(R.id.btnPublish)
+        publishButton.setOnClickListener {
+            val result = processLedInput()
+            if (result.startsWith("Processed Colors: ")) {
+                val colors = result
+                    .removePrefix("Processed Colors: ")
+                    .replace(",", "") // Remove commas from the colors
+                    .trim()
+
+                val (broker, topic) = MQTTManager.getLastConnectionDetails()
+
+                if (broker != null && topic != null) {
+                    MQTTManager.publish(topic, colors)
+                    Toast.makeText(requireContext(), "Published to $topic at $broker: $colors", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "No active MQTT connection to publish.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "No valid data to publish.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
 
 data class LedConfiguration(
     val id: Int,
+    var mode: Int,      // Integer Mode: 0 = in, 1 = out, 2 = led, 5 = kosong
     var color: String
 )

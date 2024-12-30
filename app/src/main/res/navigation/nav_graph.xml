@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/welcomeFragment">
+    app:startDestination="@id/fragment_mqtt_connect">
 
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.example.lentera.homepage.WelcomeFragment"
+        android:id="@+id/fragment_mqtt_connect"
+        android:name="com.example.lentera.homepage.MQTTConnectFragment"
         android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" >
+        tools:layout="@layout/fragment_mqtt_connect" >
         <action
             android:id="@+id/action_welcomeFragment_to_bluetoothFragment"
             app:destination="@id/bluetoothFragment" />

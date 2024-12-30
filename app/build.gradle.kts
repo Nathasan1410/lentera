@@ -38,6 +38,9 @@ android {
 }
 
 dependencies {
+    // MQTT library for v5
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+
     // Color picker library
     implementation("com.github.Mohammad3125:KavehColorPicker:v1.0.0")
 

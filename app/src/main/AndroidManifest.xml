@@ -12,6 +12,13 @@
     <!-- Izin untuk mengakses log di perangkat (jika diperlukan) -->
     <uses-permission android:name="android.permission.READ_LOGS" android:maxSdkVersion="28" />
 
+    <!-- Izin untuk mengakses Bluetooth -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- Izin untuk perangkat yang menggunakan Android 12 atau lebih baru -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" tools:targetApi="31" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -41,6 +48,11 @@
         <!-- RegisterActivity -->
         <activity
             android:name=".homepage.RegisterActivity"
+            android:exported="true" />
+
+        <!-- Placeholder for MQTT Fragment -->
+        <activity
+            android:name=".homepage.MQTTConnectFragment"
             android:exported="true" />
 
     </application>

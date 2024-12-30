@@ -16,18 +16,18 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="600dp"
+            android:layout_marginTop="1080dp"
             android:scrollbars="horizontal">
 
-            <!-- Grid Layout untuk tombol LED -->
+            <!-- Grid Layout for LED buttons -->
             <androidx.gridlayout.widget.GridLayout
                 android:id="@+id/ledGrid"
                 android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:columnCount="10"
-            app:rowCount="10"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"/>
+                android:layout_height="wrap_content"
+                app:columnCount="10"
+                app:rowCount="10"
+                android:layout_marginBottom="16dp"
+                android:padding="8dp"/>
         </HorizontalScrollView>
 
         <!-- Color Picker -->
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Button untuk Apply Color -->
+        <!-- Button to Apply Color -->
         <Button
             android:id="@+id/btnApplyColor"
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:text="Apply Color"
             android:layout_marginBottom="8dp"/>
 
-        <!-- Button untuk Reset Grid -->
+        <!-- Button to Reset Grid -->
         <Button
             android:id="@+id/btnResetGrid"
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:text="Reset Grid"
             android:layout_marginBottom="8dp"/>
 
-        <!-- Button untuk Read Grid -->
+        <!-- Button to Read Grid -->
         <Button
             android:id="@+id/btnReadGrid"
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             android:text="Read Grid"
             android:layout_marginBottom="8dp"/>
 
-        <!-- Button untuk Change Input Mode -->
+        <!-- Button to Change Input Mode -->
         <Button
             android:id="@+id/btnChangeInputMode"
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:text="Change Input Mode"
             android:layout_marginBottom="8dp"/>
 
-        <!-- Button untuk Save Grid -->
+        <!-- Button to Save Grid -->
         <Button
             android:id="@+id/btnSaveGrid"
             android:layout_width="match_parent"
@@ -84,7 +84,15 @@
             android:text="Save Grid"
             android:layout_marginBottom="8dp"/>
 
-        <!-- TextView untuk menampilkan output atau hasil -->
+        <!-- Button to Publish Output -->
+        <Button
+            android:id="@+id/btnPublish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Publish Output"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- TextView to display output -->
         <TextView
             android:id="@+id/tvOutput"
             android:layout_width="match_parent"
@@ -92,6 +100,5 @@
             android:text="Processed Colors: "
             android:textSize="16sp"
             android:layout_marginTop="16dp"/>
-
     </LinearLayout>
 </ScrollView>
