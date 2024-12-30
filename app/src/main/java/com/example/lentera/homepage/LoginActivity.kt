@@ -23,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditText: EditText = findViewById(R.id.et_password)
         val loginButton: Button = findViewById(R.id.btn_login)
 
-        // Login button click listener
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
@@ -32,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            // Simpan UID ke SharedPreferences
+                            // Simpan UID terbaru ke SharedPreferences
                             val userId = FirebaseAuth.getInstance().currentUser?.uid
                             if (userId != null) {
                                 val sharedPref = getSharedPreferences("USER_PREFS", MODE_PRIVATE)
