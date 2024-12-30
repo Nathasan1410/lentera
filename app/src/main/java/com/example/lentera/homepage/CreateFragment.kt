@@ -2,18 +2,25 @@ package com.example.lentera.homepage
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.lentera.R
 import ir.kotlin.kavehcolorpicker.KavehColorPicker
 import ir.kotlin.kavehcolorpicker.KavehHueSlider
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 
 class CreateFragment : Fragment() {
 
@@ -38,6 +45,7 @@ class CreateFragment : Fragment() {
         setupResetButton(rootView)
         setupReadGridButton(rootView)
         setupChangeInputModeButton(rootView)
+        setupSaveButton(rootView)
 
         return rootView
     }
@@ -110,8 +118,6 @@ class CreateFragment : Fragment() {
         colorPicker.hueSliderView = hueSlider
     }
 
-
-
     private fun setupApplyColorButton(rootView: View) {
         val applyButton = rootView.findViewById<Button>(R.id.btnApplyColor)
         applyButton.setOnClickListener {
@@ -136,7 +142,6 @@ class CreateFragment : Fragment() {
         }
     }
 
-
     private fun setupReadGridButton(rootView: View) {
         val readGridButton = rootView.findViewById<Button>(R.id.btnReadGrid)
         outputTextView = rootView.findViewById(R.id.tvOutput)
@@ -158,6 +163,68 @@ class CreateFragment : Fragment() {
             isInputModeActive = !isInputModeActive
             val mode = if (isInputModeActive) "Input Mode Active" else "Color Mode Active"
             Toast.makeText(requireContext(), mode, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupSaveButton(rootView: View) {
+        val saveButton = rootView.findViewById<Button>(R.id.btnSaveGrid)
+        saveButton.setOnClickListener {
+            // Show input dialog for the filename
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Enter File Name")
+
+            // Set up the input field
+            val input = EditText(requireContext())
+            input.inputType = InputType.TYPE_CLASS_TEXT
+            builder.setView(input)
+
+            // Set up the buttons
+            builder.setPositiveButton("Save") { dialog, which ->
+                val fileName = input.text.toString().trim()
+
+                if (fileName.isNotEmpty()) {
+                    val file = File(requireContext().getExternalFilesDir(null), "$fileName.csv")
+
+                    // Check if the file already exists
+                    if (file.exists()) {
+                        Toast.makeText(requireContext(), "File already exists. Please choose a different name.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // If file doesn't exist, save the CSV file
+                        saveGridToCsv(file)
+                        Toast.makeText(requireContext(), "File saved successfully!", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "File name cannot be empty.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            builder.setNegativeButton("Cancel") { dialog, which ->
+                dialog.cancel()
+            }
+
+            builder.show()
+        }
+    }
+
+    private fun saveGridToCsv(file: File) {
+        try {
+            val writer = BufferedWriter(FileWriter(file))
+
+            // Write header (optional)
+            writer.write("Index,Color\n")
+
+            // Iterate through the grid and write data
+            for (row in 0 until rows) {
+                for (col in 0 until columns) {
+                    val led = ledGrid[row][col]
+                    writer.write("${led.id},${led.color}\n")
+                }
+            }
+
+            writer.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Error saving file.", Toast.LENGTH_SHORT).show()
         }
     }
 }

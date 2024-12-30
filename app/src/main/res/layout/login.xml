@@ -7,6 +7,24 @@
     android:padding="16dp"
     android:gravity="center">
 
+    <!-- Image for the Icon -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon"
+    android:contentDescription="App Icon"
+    android:layout_marginBottom="24dp" />
+
+    <!-- Welcome Message -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selamat datang di aplikasi Lentera"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
     <!-- Email Input -->
     <EditText
         android:id="@+id/et_email"

@@ -1,114 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homepage.CreateFragment"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".homepage.CreateFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="16dp">
 
-        <!-- Scrollable grid layout -->
+        <!-- Horizontal Scroll for Grid Layout -->
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:fillViewport="true"
-            android:layout_marginTop="500dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="600dp"
+            android:scrollbars="horizontal">
 
-            <!-- Hapus HorizontalScrollView dan letakkan GridLayout langsung dalam ScrollView -->
+            <!-- Grid Layout untuk tombol LED -->
             <androidx.gridlayout.widget.GridLayout
                 android:id="@+id/ledGrid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:columnCount="10"
-                app:rowCount="10"
-                android:padding="8dp"
-                android:clipToPadding="false">
-
-
-
-            <!-- Button for each grid cell -->
-            <!-- Dynamic buttons will be added programmatically in CreateFragment -->
-        </androidx.gridlayout.widget.GridLayout>
-    </HorizontalScrollView>
-
-    <!-- Other sections -->
-    <!-- Container for color picker, hue slider, and apply button -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp">
+                android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:columnCount="10"
+            app:rowCount="10"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"/>
+        </HorizontalScrollView>
 
         <!-- Color Picker -->
         <ir.kotlin.kavehcolorpicker.KavehColorPicker
             android:id="@+id/colorPickerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Hue Slider -->
         <ir.kotlin.kavehcolorpicker.KavehHueSlider
             android:id="@+id/hueSlider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
-        <!-- Apply Color Button -->
+        <!-- Button untuk Apply Color -->
         <Button
             android:id="@+id/btnApplyColor"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Apply Color"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
+            android:layout_marginBottom="8dp"/>
 
-    <!-- Output section: Read Grid and Change Mode Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp">
+        <!-- Button untuk Reset Grid -->
+        <Button
+            android:id="@+id/btnResetGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset Grid"
+            android:layout_marginBottom="8dp"/>
 
+        <!-- Button untuk Read Grid -->
         <Button
             android:id="@+id/btnReadGrid"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Read Grid"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginBottom="8dp"/>
 
+        <!-- Button untuk Change Input Mode -->
         <Button
             android:id="@+id/btnChangeInputMode"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Input Mode" />
+            android:text="Change Input Mode"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Button untuk Save Grid -->
+        <Button
+            android:id="@+id/btnSaveGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Grid"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- TextView untuk menampilkan output atau hasil -->
+        <TextView
+            android:id="@+id/tvOutput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Processed Colors: "
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"/>
+
     </LinearLayout>
-
-    <!-- Output TextView -->
-    <TextView
-        android:id="@+id/tvOutput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Processed Colors:"
-        android:padding="16dp"
-        android:textSize="16sp"
-        android:background="#FFFFFF"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Reset Button -->
-    <Button
-        android:id="@+id/btnResetGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reset"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
-    </ScrollView>
+</ScrollView>
