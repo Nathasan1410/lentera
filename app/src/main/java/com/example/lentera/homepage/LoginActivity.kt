@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lentera.R
-import com.example.lentera.homepage.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -23,9 +22,7 @@ class LoginActivity : AppCompatActivity() {
         val emailEditText: EditText = findViewById(R.id.et_email)
         val passwordEditText: EditText = findViewById(R.id.et_password)
         val loginButton: Button = findViewById(R.id.btn_login)
-//        val registerButton: Button = findViewById(R.id.btn_register)
 
-        // Login button click listener
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
@@ -34,6 +31,17 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
+                            // Simpan UID terbaru ke SharedPreferences
+                            val userId = FirebaseAuth.getInstance().currentUser?.uid
+                            if (userId != null) {
+                                val sharedPref = getSharedPreferences("USER_PREFS", MODE_PRIVATE)
+                                with(sharedPref.edit()) {
+                                    putString("USER_ID", userId)
+                                    apply()
+                                }
+                            }
+
+                            // Navigasi ke MainActivity
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
                         } else {
@@ -51,6 +59,5 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
     }
 }

@@ -1,6 +1,7 @@
 package com.example.lentera.homepage
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,7 +13,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.lentera.R
-import com.example.lentera.homepage.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -70,7 +70,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
+        // Hapus USER_ID dari SharedPreferences
+        val sharedPref = getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            clear()
+            apply()
+        }
+
+        // Logout dari Firebase Auth
         FirebaseAuth.getInstance().signOut()
+
+        // Navigasi ke LoginActivity
         navigateToLogin()
     }
 
