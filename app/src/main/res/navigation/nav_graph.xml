@@ -10,27 +10,6 @@
         android:name="com.example.lentera.homepage.MQTTConnectFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_mqtt_connect" >
-        <action
-            android:id="@+id/action_welcomeFragment_to_bluetoothFragment"
-            app:destination="@id/bluetoothFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/bluetoothFragment"
-        android:name="com.example.lentera.homepage.BluetoothFragment"
-        android:label="fragment_message"
-        tools:layout="@layout/fragment_bluetooth" >
-        <action
-            android:id="@+id/action_bluetoothFragment_to_connectedFragment"
-            app:destination="@id/connectedFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/connectedFragment"
-        android:name="com.example.lentera.homepage.ConnectedFragment"
-        android:label="fragment_connected"
-        tools:layout="@layout/fragment_connected" >
-        <action
-            android:id="@+id/action_connectedFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
     </fragment>
 
     <fragment
